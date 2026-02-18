@@ -105,7 +105,7 @@ func (dst *RawcovFile) mergeToNewFile(src RawcovReader, filename string, tr func
 
 LOOP_WRITE_RECORD:
 
-    if _, err = writer.Write(dst.recordBuf[:]); err != nil {
+    if _, err = writer.Write(dst.outRecordBuf[:]); err != nil {
       return 0, fmt.Errorf("failed to write record: %w", err)
     }
   }

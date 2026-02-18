@@ -19,13 +19,13 @@ func (self *RawcovFile) getRecord() (RawcovRecord, error) {
   }
 
   // read record from file to buffer
-  if _, err:= io.ReadFull(self.buf, self.recordBuf[:]); err != nil {
+  if _, err:= io.ReadFull(self.buf, self.inpRecordBuf[:]); err != nil {
     return RawcovRecord{}, fmt.Errorf("failed to read record: %w", err)
   }
 
   // get values from buffer
-  recordValue:= binary.LittleEndian.Uint64(self.recordBuf[:8])
-  recordHit:= binary.LittleEndian.Uint32(self.recordBuf[8:])
+  recordValue:= binary.LittleEndian.Uint64(self.inpRecordBuf[:8])
+  recordHit:= binary.LittleEndian.Uint32(self.inpRecordBuf[8:])
   self.index++
 
   // return record value

@@ -11,8 +11,8 @@ import (
 
 func (self *RawcovFile) fillRecordBuf(value uint64, hit uint32) {
 
-  binary.LittleEndian.PutUint64(self.recordBuf[:8], value)
-  binary.LittleEndian.PutUint32(self.recordBuf[8:], hit)
+  binary.LittleEndian.PutUint64(self.outRecordBuf[:8], value)
+  binary.LittleEndian.PutUint32(self.outRecordBuf[8:], hit)
 }
 
 func (self *RawcovFile) fillAndSumRecordBuf(value uint64, hit1 uint32, hit2 uint32) {
@@ -52,7 +52,6 @@ func (self *RawcovFile) closeFile() error {
   self.count = 0
   self.fillSignature()
   self.fillHeaderBuf(0, 0)
-  self.fillRecordBuf(0, 0)
 
   if self.file != nil {
     // close file if there is
@@ -77,6 +76,7 @@ func (self *RawcovFile) resetFile() error {
 
   self.buf.Reset(self.file)
   self.index = 0
+
   return nil
 }
 
@@ -97,7 +97,6 @@ func (self *RawcovFile) initFile(file *os.File) error {
     self.buf = nil
     self.count = 0
     self.index = 0
-    self.fillRecordBuf(0, 0)
     self.fillSignature()
     self.fillHeaderBuf(0, 0)
     return nil
@@ -123,7 +122,6 @@ func (self *RawcovFile) initFile(file *os.File) error {
 
   self.count = binary.LittleEndian.Uint64(self.headerBuf[8:])
   self.index = 0
-  self.fillRecordBuf(0, 0)
   return nil
 }
 
@@ -137,9 +135,8 @@ func (self *RawcovFile) Len() uint64 {
 func (self *RawcovFile) Close() error {
 
   if self == nil {
-    return 0
+    return nil
   }
-
 
   return self.closeFile()
 }

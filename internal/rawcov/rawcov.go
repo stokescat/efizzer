@@ -21,13 +21,14 @@ type RawcovRecord struct {
 }
 
 type RawcovFile struct {
-  file      *os.File      // linked file
-  buf       *bufio.Reader // linked buffered stream
-  count     uint64        // count of records
-  index     uint64        // id of next record
-  path      string        // path to file
-  recordBuf [12]byte      // buffer for io operations with record
-  headerBuf [16]byte      // buffer for io operations with header
+  file         *os.File      // linked file
+  buf          *bufio.Reader // linked buffered stream
+  count        uint64        // count of records
+  index        uint64        // id of next record
+  path         string        // path to file
+  outRecordBuf [12]byte      // buffer for io operations with record
+  inpRecordBuf [12]byte
+  headerBuf    [16]byte      // buffer for io operations with header
 }
 
 
