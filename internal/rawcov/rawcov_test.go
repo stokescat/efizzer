@@ -1,4 +1,4 @@
-package rawcov
+package rawcov_test
 
 import (
   "testing"
@@ -7,6 +7,7 @@ import (
   "path/filepath"
 
   "github.com/tidwall/btree"
+  "github.com/stokescat/efizzer/internal/rawcov"
 )
 
 type SimpleReader struct {
@@ -31,17 +32,17 @@ func (self *SimpleReader) Reset() error {
   return nil
 }
 
-func (self *SimpleReader) Get() (RawcovRecord, error) {
+func (self *SimpleReader) Get() (rawcov.Record, error) {
 
   count:= uint64(self.Tree.Len())
 
   if self.Index >= count {
-    return RawcovRecord{}, ErrNoRecord
+    return rawcov.Record{}, rawcov.ErrNoRecord
   }
 
   value, hit, _:= self.Tree.GetAt(int(self.Index))
   self.Index++
-  return RawcovRecord{
+  return rawcov.Record{
     Value: value,
     Hit: hit,
   }, nil
@@ -95,7 +96,7 @@ func TestWriteAndReadOddRecords(t *testing.T) {
     Index: 0, 
   }
 
-  rawcovFile, err:= Open(addrOddFileName)
+  rawcovFile, err:= rawcov.Open(addrOddFileName)
   if err != nil {
     t.Fatalf("failed to create file: %v", err)
   }
@@ -140,7 +141,7 @@ func TestWriteAndReadEvenRecords(t *testing.T) {
     Index: 0, 
   }
 
-  rawcovFile, err:= Open(addrEvenFileName)
+  rawcovFile, err:= rawcov.Open(addrEvenFileName)
   if err != nil {
     t.Fatalf("failed to create file: %v", err)
   }
@@ -182,12 +183,12 @@ func TestWriteAndReadEvenRecords(t *testing.T) {
 
 func TestOddAndEvenFilesContent(t *testing.T) {
 
-  oddFile, err:= Open(addrOddFileName)
+  oddFile, err:= rawcov.Open(addrOddFileName)
   if err != nil {
     t.Fatalf("[odd] failed to open odd file: %v", err)
   }
 
-  evenFile, err:= Open(addrEvenFileName)
+  evenFile, err:= rawcov.Open(addrEvenFileName)
   if err != nil {
     t.Fatalf("[even] failed to open even file: %v", err)
   }
@@ -233,17 +234,17 @@ func TestOddAndEvenFilesContent(t *testing.T) {
 // TODO TODO
 func TestMergeTwoFiles(t *testing.T) {
 
-  oddFile, err:= Open(addrOddFileName)
+  oddFile, err:= rawcov.Open(addrOddFileName)
   if err != nil {
     t.Fatalf("[odd] failed to open odd file: %v", err)
   }
 
-  evenFile, err:= Open(addrEvenFileName)
+  evenFile, err:= rawcov.Open(addrEvenFileName)
   if err != nil {
     t.Fatalf("[even] failed to open even file: %v", err)
   }
 
-  addrFile, err:= Open(addrFileName)
+  addrFile, err:= rawcov.Open(addrFileName)
   if err != nil {
     t.Fatalf("[merge] failed to create file: %v", err)
   }
@@ -286,7 +287,7 @@ func TestMergeTwoFiles(t *testing.T) {
 
 func TestMergedFileContent(t *testing.T) {
 
-  addrFile, err:= Open(addrFileName)
+  addrFile, err:= rawcov.Open(addrFileName)
   if err != nil {
     t.Fatalf("failed to open file: %v", err)
   }
@@ -321,7 +322,7 @@ func TestMergeSameDataTwice(t *testing.T) {
     Index: 0, 
   }
 
-  rawcovFile, err:= Open(addrOddFileName)
+  rawcovFile, err:= rawcov.Open(addrOddFileName)
   if err != nil {
     t.Fatalf("failed to open file: %v", err)
   }
@@ -363,12 +364,12 @@ func TestMergeSameDataTwice(t *testing.T) {
 
 func TestMergeExistingData(t *testing.T) {
 
-  oddFile, err:= Open(addrOddFileName)
+  oddFile, err:= rawcov.Open(addrOddFileName)
   if err != nil {
     t.Fatalf("[odd] failed to open file: %v", err)
   }
 
-  addrFile, err:= Open(addrFileName)
+  addrFile, err:= rawcov.Open(addrFileName)
   if err != nil {
     t.Fatalf("[merge] failed to open file: %v", err)
   }
@@ -397,7 +398,7 @@ func TestMergeExistingData(t *testing.T) {
 
 func TestMergedFileAfterAddingOddAgain(t *testing.T) {
 
-  addrFile, err:= Open(addrFileName)
+  addrFile, err:= rawcov.Open(addrFileName)
   if err != nil {
     t.Fatalf("failed to open file: %v", err)
   }

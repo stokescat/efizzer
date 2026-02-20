@@ -15,12 +15,12 @@ var (
   ErrNoFile       = fmt.Errorf("no file")
 )
 
-type RawcovRecord struct {
+type Record struct {
   Value uint64
   Hit   uint32
 }
 
-type RawcovFile struct {
+type File struct {
   file         *os.File      // linked file
   buf          *bufio.Reader // linked buffered stream
   count        uint64        // count of records
@@ -32,9 +32,9 @@ type RawcovFile struct {
 }
 
 
-type RawcovReader interface {
+type Reader interface {
   IsEmpty() bool                  // return true if object is empty
-  Get()     (RawcovRecord, error) // return next record value or ErrNoRecord
+  Get()     (Record, error) // return next record value or ErrNoRecord
   Reset()   error                 // reset object to start
   Len()     uint64                // return count of items
 }

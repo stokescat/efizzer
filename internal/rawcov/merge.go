@@ -7,7 +7,7 @@ import (
   "errors"
 )
 
-func (dst *RawcovFile) mergeToNewFile(src RawcovReader, filename string, tr func(RawcovRecord) RawcovRecord) (uint64, error) {
+func (dst *File) mergeToNewFile(src Reader, filename string, tr func(Record) Record) (uint64, error) {
 
   countRecords:= uint64(0) // count of records in new file
   countMatches:= uint64(0) // count matches value in dst
@@ -39,7 +39,7 @@ func (dst *RawcovFile) mergeToNewFile(src RawcovReader, filename string, tr func
   }
 
   // function get and transform record from src file
-  getSrcRecord:= func() (RawcovRecord, error) {
+  getSrcRecord:= func() (Record, error) {
     if rec, err:= src.Get(); err == nil {
        return tr(rec), nil
     } else {
@@ -129,7 +129,7 @@ LOOP_WRITE_RECORD:
 }
 
 
-func (dst *RawcovFile) Merge(src RawcovReader, tr func(RawcovRecord) RawcovRecord) (uint64, error) {
+func (dst *File) Merge(src Reader, tr func(Record) Record) (uint64, error) {
 
   if dst == nil {
     return 0, ErrNil
@@ -144,7 +144,7 @@ func (dst *RawcovFile) Merge(src RawcovReader, tr func(RawcovRecord) RawcovRecor
   }
 
   if tr == nil {
-    tr = func (r RawcovRecord) RawcovRecord {return r}
+    tr = func (r Record) Record {return r}
   }
 
   if src.IsEmpty() {

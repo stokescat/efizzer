@@ -6,9 +6,9 @@ import (
   "errors"
 )
 
-func Open(path string) (*RawcovFile, error) {
+func Open(path string) (*File, error) {
 
-  obj:= new(RawcovFile)
+  obj:= new(File)
   obj.path = path
 
   newFile, err:= os.Open(path)

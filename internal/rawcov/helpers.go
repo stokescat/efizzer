@@ -9,13 +9,13 @@ import (
 )
 
 
-func (self *RawcovFile) fillRecordBuf(value uint64, hit uint32) {
+func (self *File) fillRecordBuf(value uint64, hit uint32) {
 
   binary.LittleEndian.PutUint64(self.outRecordBuf[:8], value)
   binary.LittleEndian.PutUint32(self.outRecordBuf[8:], hit)
 }
 
-func (self *RawcovFile) fillAndSumRecordBuf(value uint64, hit1 uint32, hit2 uint32) {
+func (self *File) fillAndSumRecordBuf(value uint64, hit1 uint32, hit2 uint32) {
 
   hitSum:= uint64(hit1) + uint64(hit2)
 
@@ -27,24 +27,24 @@ func (self *RawcovFile) fillAndSumRecordBuf(value uint64, hit1 uint32, hit2 uint
 
 }
 
-func (self *RawcovFile) fillHeaderBuf(flags uint16, count uint64) {
+func (self *File) fillHeaderBuf(flags uint16, count uint64) {
 
   binary.LittleEndian.PutUint16(self.headerBuf[6:8], flags)
   binary.LittleEndian.PutUint64(self.headerBuf[8:], count)
 }
 
-func (self *RawcovFile) fillSignature() {
+func (self *File) fillSignature() {
 
   copy(self.headerBuf[:6], "RAWCOV")
 }
 
 
-func (self *RawcovFile) IsEmpty() bool {
+func (self *File) IsEmpty() bool {
 
   return (self.count == 0)
 }
 
-func (self *RawcovFile) closeFile() error {
+func (self *File) closeFile() error {
 
   // clear object
   self.buf = nil
@@ -63,7 +63,7 @@ func (self *RawcovFile) closeFile() error {
 }
 
 
-func (self *RawcovFile) resetFile() error {
+func (self *File) resetFile() error {
 
   // if we have not file, then return nil
   if self.file == nil {
@@ -80,7 +80,7 @@ func (self *RawcovFile) resetFile() error {
   return nil
 }
 
-func (self *RawcovFile) Reset() error {
+func (self *File) Reset() error {
 
   if self == nil {
     return ErrNil
@@ -89,7 +89,7 @@ func (self *RawcovFile) Reset() error {
   return self.resetFile()
 }
 
-func (self *RawcovFile) initFile(file *os.File) error {
+func (self *File) initFile(file *os.File) error {
 
   if file == nil {
     // init empty file
@@ -125,14 +125,14 @@ func (self *RawcovFile) initFile(file *os.File) error {
   return nil
 }
 
-func (self *RawcovFile) Len() uint64 {
+func (self *File) Len() uint64 {
   if self == nil {
     return 0
   }
   return self.count
 }
 
-func (self *RawcovFile) Close() error {
+func (self *File) Close() error {
 
   if self == nil {
     return nil
