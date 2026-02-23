@@ -1,19 +1,19 @@
 package rawcov
 
 import (
-    "os"
-    "bufio"
-    "fmt"
+  "os"
+  "bufio"
+  "fmt"
 )
 
 var (
   ErrNoRecord     = fmt.Errorf("no record")
-  ErrNil          = fmt.Errorf("nil object")
   ErrArgs         = fmt.Errorf("invalid args")
   ErrInvSignature = fmt.Errorf("invalid signature")
   ErrInvFlags     = fmt.Errorf("invalid flags")
   ErrNoFile       = fmt.Errorf("no file")
 )
+
 
 type Record struct {
   Value uint64
@@ -40,5 +40,5 @@ type Reader interface {
 }
 
 
-// TODO TODO
+// TODO: add panic 
 

@@ -4,6 +4,7 @@ import (
   "io"
   "encoding/binary"
   "fmt"
+  "log"
 )
 
 func (self *File) getRecord() (Record, error) {
@@ -38,7 +39,7 @@ func (self *File) getRecord() (Record, error) {
 func (self *File) Get() (Record, error) {
 
   if self == nil {
-    return Record{}, ErrNil
+    log.Panicf("method called with nil value")
   }
 
   return self.getRecord()

@@ -5,6 +5,7 @@ import (
   "bufio"
   "fmt"
   "errors"
+  "log"
 )
 
 func (dst *File) mergeToNewFile(src Reader, filename string, tr func(Record) Record) (uint64, error) {
@@ -132,7 +133,7 @@ LOOP_WRITE_RECORD:
 func (dst *File) Merge(src Reader, tr func(Record) Record) (uint64, error) {
 
   if dst == nil {
-    return 0, ErrNil
+    log.Panicf("method called with nil value")
   }
 
   if src == nil {

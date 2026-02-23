@@ -6,6 +6,7 @@ import (
   "os"
   "bufio"
   "io"
+  "log"
 )
 
 
@@ -40,6 +41,10 @@ func (self *File) fillSignature() {
 
 
 func (self *File) IsEmpty() bool {
+
+  if self == nil {
+   log.Panicf("method called with nil value")
+  }
 
   return (self.count == 0)
 }
@@ -83,7 +88,7 @@ func (self *File) resetFile() error {
 func (self *File) Reset() error {
 
   if self == nil {
-    return ErrNil
+    log.Panicf("method called with nil value")
   }
 
   return self.resetFile()
@@ -127,7 +132,7 @@ func (self *File) initFile(file *os.File) error {
 
 func (self *File) Len() uint64 {
   if self == nil {
-    return 0
+    log.Panicf("method called with nil value")
   }
   return self.count
 }
