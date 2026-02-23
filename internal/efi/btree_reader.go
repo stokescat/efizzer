@@ -10,9 +10,9 @@ import (
 
 type btreeReader struct {
 
-  tree *btree.Map[uint64, uint32]
-  index uint64
-  count uint64
+  tree    *btree.Map[uint64, uint32]
+  index   uint64
+  count   uint64
 }
 
 func (self *btreeReader) Get() (rawcov.Record, error) {
