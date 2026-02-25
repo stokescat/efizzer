@@ -58,7 +58,7 @@ func (self *QemuMachine) SetTimeout(t time.Duration) error {
 }
 
 
-// heart beat
+// heart bit
 func (self *QemuMachine) Pulse() error {
 
   if self == nil {

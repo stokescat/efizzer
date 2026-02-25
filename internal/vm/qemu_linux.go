@@ -16,17 +16,17 @@ const (
 
 func NewQemu(binPath string) (*QemuMachine, error) {
 
-    bin, err:= exec.LookPath(binPath)
-    if err != nil {
-      return nil, fmt.Errorf("failed to get binary file: %w", err) 
-    }
+  bin, err:= exec.LookPath(binPath)
+  if err != nil {
+    return nil, fmt.Errorf("failed to get binary file: %w", err) 
+  }
 
-    obj:= new(QemuMachine)
+  obj:= new(QemuMachine)
 
-    obj.bin = bin // set full path to qemu binary
-    obj.state = StateInit // set initial state
+  obj.bin = bin // set full path to qemu binary
+  obj.state = StateInit // set initial state
 
-    return obj, nil
+  return obj, nil
 }
 
 
