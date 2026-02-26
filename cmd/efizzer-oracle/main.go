@@ -17,7 +17,7 @@ func main() {
 
   gWorkDir = ""
   gMachinePath = "/home/pavel/efizzer/qemu/build/qemu-system-x86_64"
-  firmwarePath:= "/home/pavel/efizzer/audk1/Build/OvmfX64/DEBUG_CLANGDWARF/FV/OVMF.fd"
+  firmwarePath:= "/home/pavel/efizzer/audk/Build/OvmfX64/DEBUG_CLANGDWARF/FV/OVMF.fd"
 
   SigtermEvent, stopSigterm:= signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
   defer stopSigterm()
